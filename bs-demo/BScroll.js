@@ -135,17 +135,23 @@ BScroll.prototype._end = function (e) {
   let deltaY = newY - this.absStartY
   this.directionY = deltaY > 0 ? DIRECTION_DOWN : deltaY < 0 ? DIRECTION_UP : 0
 
+  let wrapperRect = getRect(this.wrapper)
   let scrollerRect = getRect(this.scroller)
   
-  if (newY > 0) {
+  if (newY > 0) {     // 向下滚动
     this._translate(newX, newY)
     this._translate(newX, 0)      // 滚动元素超出边界后重置（上边界）
-  } else {
-    if (Math.abs(newY) < scrollerRect.height)
+  } else {    // 向上滚动
+    if (wrapperRect.height >= scrollerRect.height) {   // 包裹元素高度 >= 滚动元素高度
       this._translate(newX, newY)
-    else {
-      this._translate(newX, newY)
-      this._translate(newX, -scrollerRect.height)    // 滚动元素超出边界后重置（下边界）
+      this._translate(newX, 0)
+    } else {
+      if (Math.abs(newY) < scrollerRect.height)
+        this._translate(newX, newY)
+      else {
+        this._translate(newX, newY)
+        this._translate(newX, -scrollerRect.height)    // 滚动元素超出边界后重置（下边界）
+      }
     }
   }
 }
