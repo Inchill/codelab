@@ -1,0 +1,1 @@
+阅读 better-scroll 的 core 源码后，模拟实现一个最简单的纵向滚动。

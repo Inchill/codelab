@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>bs-demo</title>
+  <!-- <script src="https://unpkg.com/better-scroll@latest/dist/better-scroll.js"></script> -->
+  <script src="./BScroll.js"></script>
+  <style>
+    .wrapper {
+      width: 100px;
+      height: 200px;
+      border: 1px solid #369;
+      margin: 0 auto;
+      margin-top: 200px;
+      overflow: hidden;
+    }
+    .wrapper .content {
+      width: 100px;
+      height: 800px;
+    }
+    .wrapper .content p {
+      width: 80px;
+      height: 180px;
+      margin: 10px auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="content">
+      <p style="background-color: red;"></p>
+      <p style="background-color: aqua;"></p>
+      <p style="background-color: blue;"></p>
+      <p style="background-color: green;"></p>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    let wrapper = document.querySelector('.wrapper');
+    // let bs = BetterScroll.createBScroll(wrapper);
+    let bs = new BScroll(wrapper);
+  </script>
+</body>
+</html>
