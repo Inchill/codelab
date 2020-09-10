@@ -150,7 +150,7 @@ BScroll.prototype._end = function (e) {
         this._translate(newX, newY)
       else {
         this._translate(newX, newY)
-        this._translate(newX, -scrollerRect.height)    // 滚动元素超出边界后重置（下边界）
+        this._translate(newX, -(scrollerRect.height - wrapperRect.height))    // 滚动元素超出边界后重置（下边界）
       }
     }
   }
