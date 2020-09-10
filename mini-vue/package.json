@@ -1,0 +1,32 @@
+{
+  "name": "mini-vue",
+  "version": "1.0.0",
+  "description": "模拟实现一个迷你版的 vue，包含 vue、compiler、observer、dep 和 watcher，能够实现 vue 的基本功能。",
+  "main": "compiler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Inchill/mini-vue.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Inchill/mini-vue/issues"
+  },
+  "homepage": "https://github.com/Inchill/mini-vue#readme",
+  "devDependencies": {
+    "@babel/core": "^7.11.4",
+    "@babel/plugin-transform-modules-commonjs": "^7.10.4",
+    "@babel/plugin-transform-runtime": "^7.11.0",
+    "@babel/preset-env": "^7.11.0",
+    "babel-loader": "^8.1.0",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.11.2"
+  }
+}
