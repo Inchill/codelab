@@ -158,7 +158,7 @@ function addEvent(el, type, fn, capture) {
 function getRect(el) {
   if (el instanceof window.SVGElement) {
     let rect = el.getBoundingClientRect()
-    return {·
+    return {
       top: rect.top,
       left: rect.left,
       width: rect.width,
