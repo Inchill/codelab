@@ -19,10 +19,10 @@ const eventType = {
 /** 滚动初始化，注册监听事件 */
 
 function BScroll (el, options = {}) {
-  this.wrapper = typeof el === 'string' ? document.querySelector(el) : el;
-  this.scroller = this.wrapper.children[0];
-  this.scrollerStyle = this.scroller.style;
-  this._init(el, options);
+  this.wrapper = typeof el === 'string' ? document.querySelector(el) : el
+  this.scroller = this.wrapper.children[0]
+  this.scrollerStyle = this.scroller.style
+  this._init(el, options)
 }
 
 BScroll.prototype._init = function (el, options) {
@@ -76,26 +76,9 @@ BScroll.prototype.handleEvent = function (e) {
 /******* 滚动核心逻辑 *******/
 
 BScroll.prototype._start = function (e) {
-  // console.log('_start', this.y)
-  let _eventType = eventType[e.type]
-  if (_eventType !== TOUCH_EVENT) {
-    if (e.button !== 0) { // 不是鼠标左键，退出
-      return
-    }
-  }
-
-  // 初始化数据
-  this.moved = false
   // 手指或鼠标的滑动距离
   this.distX = 0
   this.distY = 0
-  // 滑动方向
-  this.directionX = 0
-  this.directionY = 0
-  // 滑动中的方向
-  this.movingDirectionX = 0
-  this.movingDirectionY = 0
-  this.directionLocked = 0
 
   let point = e.touches ? e.touches[0] : e
 
@@ -104,47 +87,43 @@ BScroll.prototype._start = function (e) {
   this.startY = this.y
   this.absStartX = this.x      // 注意在 _end 函数里会用到
   this.absStartY = this.y
-  // 鼠标或手指相对于页面位置（不是可视区域里的文档部分，而是整个文档）
+  // 鼠标或手指相对于页面位置（不是可视区域里的文档部分，而是滚动元素scroll部分）
   this.pointX = point.pageX
   this.pointY = point.pageY
-
-  this.trigger('beforeScrollStart')
 }
 
 BScroll.prototype._move = function (e) {
-  // console.log('_move')
   let point = e.touches ? e.touches[0] : e
 
+  // 计算滚动中的滚动量
   let deltaX = point.pageX - this.pointX
   let deltaY = point.pageY - this.pointY
 
-  this.pointX = point.pageX     // 缓存本次手指或鼠标在页面的坐标
+  this.pointX = point.pageX     // 缓存滚动中手指或鼠标在页面的坐标（相对整个scroll滚动元素）
   this.pointY = point.pageY
 
-  this.distX += deltaX      // 累计滚动距离
+  this.distX += deltaX      // 累计滚动量
   this.distY += deltaY
 
+  // 计算新的滚动坐标
   let newX = this.x + deltaX
   let newY = this.y + deltaY
 
-  if (!this.moved) {
-    this.moved = true
-    this.trigger('scrollStart')
-  }
-
   this._translate(newX, newY)
 
+  // 计算滚动条卷去的高度
   let scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop
 
-  let pY = this.pointY - scrollTop
+  let pY = this.pointY - scrollTop   // 手指或鼠标相对于scroll滚动元素的坐标 - 滚动条向上卷去的距离 = 在可视区的坐标
 
-  if (pY > 5) {
+  if (pY > document.documentElement.clientHeight) {     // 如果到了视窗边缘，停止滚动
     this._end(e)
   }
 }
 
 BScroll.prototype._end = function (e) {
-  // console.log('_end')
+  let point = e.touches ? e.touches[0] : e
+
   this.trigger('touchEnd', {
     x: this.x,
     y: this.y
@@ -155,18 +134,44 @@ BScroll.prototype._end = function (e) {
 
   let deltaY = newY - this.absStartY
   this.directionY = deltaY > 0 ? DIRECTION_DOWN : deltaY < 0 ? DIRECTION_UP : 0
-  
-  this._translate(newX, newY)
 
-  this.trigger('scrollEnd', {
-    x: this.x,
-    y: this.y
-  })
+  let scrollerRect = getRect(this.scroller)
+  
+  if (newY > 0) {
+    this._translate(newX, newY)
+    this._translate(newX, 0)      // 滚动元素超出边界后重置（上边界）
+  } else {
+    if (Math.abs(newY) < scrollerRect.height)
+      this._translate(newX, newY)
+    else {
+      this._translate(newX, newY)
+      this._translate(newX, -scrollerRect.height)    // 滚动元素超出边界后重置（下边界）
+    }
+  }
 }
 /********** 上述为滚动核心 *******/
 
 function addEvent(el, type, fn, capture) {
   el.addEventListener(type, fn, {passive: false, capture: !!capture})
+}
+
+function getRect(el) {
+  if (el instanceof window.SVGElement) {
+    let rect = el.getBoundingClientRect()
+    return {·
+      top: rect.top,
+      left: rect.left,
+      width: rect.width,
+      height: rect.height
+    }
+  } else {
+    return {
+      top: el.offsetTop,
+      left: el.offsetLeft,
+      width: el.offsetWidth,
+      height: el.offsetHeight
+    }
+  }
 }
 
 BScroll.prototype.trigger = function (type) {
