@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+  <script>
+    if (!window.Vue) {
+      var script = document.createElement('script');
+      script.src = './js/vue.min.js';
+      var head = document.head || document.getElementsByTagName('head')[0];
+      head.appendChild(script);
+    }
+  </script>
   <!-- 引入样式 -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/at-ui-style/css/at.min.css">
   <!-- 引入组件库 -->

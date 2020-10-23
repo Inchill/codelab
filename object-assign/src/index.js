@@ -1,16 +1,8 @@
-var obj = {
-  price: 0,
-  name: 'xxx'
+var data = {
+  obj: {
+    a: 1
+  }
 }
 
-function hasProperty (obj, prop) {
-  Object.keys(obj).forEach(v => {
-    console.log(v)
-    if (v === prop) return true
-  })
-  return false
-}
-
-console.log(Object.keys(obj))
-
-console.log(hasProperty(obj, 'price'))
+console.log(data.obj.a)
+console.log(data.obj.b)
