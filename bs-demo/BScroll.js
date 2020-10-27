@@ -76,18 +76,18 @@ BScroll.prototype.handleEvent = function (e) {
 /******* 滚动核心逻辑 *******/
 
 BScroll.prototype._start = function (e) {
-  // 手指或鼠标的滑动距离
+  // 初始化手指或鼠标的滑动距离
   this.distX = 0
   this.distY = 0
 
   let point = e.touches ? e.touches[0] : e
 
-  // 滚动的开始位置
+  // 初始化将要滚动到的位置
   this.startX = this.x
   this.startY = this.y
   this.absStartX = this.x      // 注意在 _end 函数里会用到
   this.absStartY = this.y
-  // 鼠标或手指相对于页面位置（不是可视区域里的文档部分，而是滚动元素scroll部分）
+  // 鼠标或手指（触点）相对于页面位置（不是可视区域里的文档部分，而是滚动元素scroll部分，包括被卷去的部分）
   this.pointX = point.pageX
   this.pointY = point.pageY
 }
@@ -95,14 +95,16 @@ BScroll.prototype._start = function (e) {
 BScroll.prototype._move = function (e) {
   let point = e.touches ? e.touches[0] : e
 
-  // 计算滚动中的滚动量
+  // 实时计算滚动中的滚动距离差
   let deltaX = point.pageX - this.pointX
   let deltaY = point.pageY - this.pointY
 
-  this.pointX = point.pageX     // 缓存滚动中手指或鼠标在页面的坐标（相对整个scroll滚动元素）
+  // 实时计算触点坐标
+  this.pointX = point.pageX
   this.pointY = point.pageY
 
-  this.distX += deltaX      // 累计滚动量
+  // 累计 x，y 方向上的滚动距离
+  this.distX += deltaX
   this.distY += deltaY
 
   // 计算新的滚动坐标
@@ -129,6 +131,7 @@ BScroll.prototype._end = function (e) {
     y: this.y
   })
 
+  // 调用完 _translate 之后 x，y 会更新，计算新的坐标
   let newX = Math.round(this.x)
   let newY = Math.round(this.y)
 
