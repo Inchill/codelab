@@ -1,0 +1,28 @@
+{
+  "name": "low-code",
+  "version": "1.0.0",
+  "description": "low-code framework amis demo",
+  "main": "index.jsx",
+  "author": "Inchill",
+  "license": "MIT",
+  "scripts": {
+    "dev": "webpack-dev-server --config ./build/webpack.dev.js"
+  },
+  "dependencies": {
+    "amis": "^1.0.18",
+    "axios": "^0.21.0",
+    "copy-to-clipboard": "^3.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.55",
+    "@types/react-dom": "^16.9.9",
+    "clean-webpack-plugin": "^3.0.0",
+    "html-webpack-plugin": "^4.5.0",
+    "ts-loader": "^8.0.9",
+    "typescript": "^4.0.5",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0",
+    "webpack-merge": "^5.3.0"
+  }
+}
